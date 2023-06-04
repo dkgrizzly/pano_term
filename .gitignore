@@ -5,7 +5,6 @@
 *_bd.bmm
 *.lst
 build/
-lib/
 obj/
 obj_verilated/
 verilated/
