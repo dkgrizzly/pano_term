@@ -55,23 +55,8 @@ init_and_build: $(PATCHED_ETH_MAC) $(PATCHED_CPU) all
 TOPDIR = ..
 include $(TOPDIR)/pano/make/ise.mk
 
-ETHERNET_MAC_PATCH := $(PATCHES_DIR)/cores/ethernet_mac/0001-BUFGMUX-routing-fix.patch
-
-$(PATCHED_ETH_MAC): $(ETHERNET_MAC_PATCH)
-	(cd $(CORES_DIR)/ethernet_mac; git reset HEAD --hard)
-	(cd $(CORES_DIR)/ethernet_mac; patch -p1 < $(ETHERNET_MAC_PATCH))
-	touch $@
-
-CPU_PATCH_DIR := $(PATCHES_DIR)/cores/cpu/riscv
-CPU_PATCHES   := $(wildcard $(CPU_PATCH_DIR)/*.patch)
-
-$(PATCHED_CPU): $(CPU_PATCHES)
-	(cd $(CORES_DIR)/cpu/riscv; git reset HEAD --hard; \
-	$(foreach _patch,$(CPU_PATCHES), patch -p1 < $(_patch);))
-	touch $@
-
 firmware.mem:
-	make -C $(TOPDIR)/fw/pano_apple init_image
+	make -C $(TOPDIR)/fw/pano_term init_image
 
 debug:
 	echo "INCLUDE_ETHERNET: $(INCLUDE_ETHERNET)"
